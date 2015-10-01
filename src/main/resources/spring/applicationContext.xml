@@ -1,0 +1,46 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/data/mongo
+        http://www.springframework.org/schema/data/mongo/spring-mongo.xsd">
+
+    <!-- Включаем контекстные аннотации типа @Service, @Controller, @Repository... -->
+    <context:annotation-config/>
+
+    <!--
+    Указываем Springу пакет, в котором он будет искать классы,
+    помеченные аннотациями @Service, @Repository, и создавать их бины, но исключать он будет @Controller,
+    т.к. эти классы нам нужны будут в другом месте.
+    -->
+    <context:component-scan base-package="ru.habrahabr.sm">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <!--
+    Загружает properties файл в конфигурацию Spring (т.е. сюда).
+    Переменные из файла можно будет использовать как ${mongo.host} (пример см. ниже)
+    -->
+    <context:property-placeholder location="classpath:database.properties"/>
+
+    <!-- Создаем бин 'mongo' -->
+    <mongo:mongo host="${mongo.host}" port="${mongo.port}"/>
+
+    <!--
+    Создаем бин 'mongoDbFactory'.
+    Если MongoDB не требует авторизации, то поля username, password можно убрать
+    -->
+    <mongo:db-factory
+            username="${mongo.username}"
+            password="${mongo.password}"
+            dbname="${mongo.db}"
+            mongo-ref="mongo"/>
+
+    <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+        <constructor-arg name="mongoDbFactory" ref="mongoDbFactory"/>
+    </bean>
+</beans>

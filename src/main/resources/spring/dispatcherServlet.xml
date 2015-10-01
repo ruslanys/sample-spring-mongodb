@@ -1,0 +1,31 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!-- Включаем MVC аннотации -->
+    <mvc:annotation-driven/>
+
+    <!--
+    Использование MVC Resources
+    Проще говоря, все файлы из папки webapp/resources/ будут доступны по адресу: localhost/resources/
+    -->
+    <mvc:resources mapping="/resources/**" location="/resources/"/>
+
+    <!-- Указываем Spring MVC где искать классы-контроллеры -->
+    <context:component-scan base-package="ru.habrahabr.sm">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+    </context:component-scan>
+
+    <!-- Указываем Spring MVC где будут лежать наши Viewшки, в данном случае это "/WEB-INF/pages/" -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/pages/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+</beans>
