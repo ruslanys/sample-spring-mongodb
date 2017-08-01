@@ -15,10 +15,8 @@ public class Sequence {
 
     @Id
     private String id;
-    private Long sequence;
+    private Long value;
 
-    public Sequence() {
-    }
 
     public String getId() {
         return id;
@@ -28,11 +26,11 @@ public class Sequence {
         this.id = id;
     }
 
-    public Long getSequence() {
-        return sequence;
+    public Long getValue() {
+        return value;
     }
 
-    public void setSequence(Long sequence) {
-        this.sequence = sequence;
+    public void setValue(Long value) {
+        this.value = value;
     }
 }

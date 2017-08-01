@@ -15,14 +15,13 @@ import java.io.Serializable;
 public class Contact implements Serializable {
     public static final String COLLECTION_NAME = "contacts";
 
+    /**
+     * В качестве ID может выступать UUID объекта из MongoDB (ObjectID).
+     *
+     * @Id private String id;
+     */
     @Id
     private Long id;
-    /* *******************************************************
-     Если вы хотите, чтобы ID объекта была автогенерируемая
-     строка (об этом я писал в посте), то опишите поле ID так:
-     @Id
-     private String id;
-     ********************************************************* */
 
     private String name;
     private String number;

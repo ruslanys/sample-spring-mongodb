@@ -36,6 +36,6 @@ public class SequenceDao {
         // если не нашли такой sequence, выбросить исключение
         if(sequence == null) throw new SequenceException("Unable to get sequence for key: " + key);
 
-        return sequence.getSequence();
+        return sequence.getValue();
     }
 }
